@@ -1,4 +1,4 @@
-#SQL-STUDY
+# SQL-STUDY
 
 `repository 소개`
 
