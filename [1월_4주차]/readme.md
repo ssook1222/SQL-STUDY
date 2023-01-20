@@ -6,13 +6,14 @@
 - 문제 풀었을 때의 기록 외에도 **왜** 그렇게 작성했는지 생각해보기
 
 `문제 플랫폼`     
-Do it! Oracle 데이터베이스 입문
+Do it! Oracle 데이터베이스 입문, 프로그래머스
 
 `문제 풀이에 참여한 날짜`
 
 - [1월 16일](#1월-16일)
 - [1월 17일](#1월-17일)
 - [1월 18일](#1월-18일)
+- [1월 19일](#1월-19일)
 
 ---
 
@@ -311,4 +312,67 @@ DELETE  FROM CHAP10HW_EMP
           WHERE E.SAL BETWEEN S.LOSAL AND S.HISAL
             AND GRADE = '5'   
     )
+```
+
+---
+
+### 1월 19일
+
+### 평균 일일 대여 요금 구하기
+
+```sql
+SELECT ROUND(AVG(DAILY_FEE),0) AS AVERAGE_FEE
+FROM CAR_RENTAL_COMPANY_CAR
+WHERE CAR_TYPE = 'SUV'
+```
+
+### **카테고리 별 도서 판매량 집계하기**
+
+```sql
+SELECT      CATEGORY
+            , SUM(SALES) AS TOTAL_SALES
+FROM        BOOK B, BOOK_SALES S
+WHERE       B.BOOK_ID = S.BOOK_ID 
+            AND EXTRACT(YEAR FROM SALES_DATE) = 2022
+            AND EXTRACT(MONTH FROM SALES_DATE) = 01
+GROUP BY    CATEGORY
+ORDER BY    CATEGORY
+```
+
+### 최댓값 구하기
+
+```sql
+SELECT MAX(DATETIME)
+FROM ANIMAL_INS
+```
+
+### **이름이 없는 동물의 아이디**
+
+```sql
+SELECT      ANIMAL_ID
+FROM        ANIMAL_INS
+WHERE       NAME IS NULL
+ORDER BY    ANIMAL_ID
+```
+
+### **이름이 있는 동물의 아이디**
+
+```sql
+SELECT      ANIMAL_ID
+FROM        ANIMAL_INS
+WHERE       NAME IS NOT NULL
+ORDER BY    ANIMAL_ID
+```
+
+### **NULL 처리하기**
+
+
+```sql
+SELECT      ANIMAL_TYPE
+            , CASE WHEN NAME IS NULL THEN 'No name'
+                   WHEN NAME IS NOT NULL THEN NAME
+                    END AS NAME
+            , SEX_UPON_INTAKE        
+FROM        ANIMAL_INS
+ORDER BY    ANIMAL_ID
 ```
