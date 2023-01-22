@@ -14,6 +14,7 @@ Do it! Oracle 데이터베이스 입문, 프로그래머스
 - [1월 17일](#1월-17일)
 - [1월 18일](#1월-18일)
 - [1월 19일](#1월-19일)
+- [1월 21일](#1월-21일)
 
 ---
 
@@ -376,3 +377,156 @@ SELECT      ANIMAL_TYPE
 FROM        ANIMAL_INS
 ORDER BY    ANIMAL_ID
 ```
+
+### 1월 21일
+
+- 오라클 데이터베이스 테이블은 **사용자 테이블**과 **데이터 사전**으로 나뉨
+    - 데이터 사전은 데이터베이스를 구성하고 운영하는 데 필요한 모든 정보를 저장하는 특수한 테이블로 데이터베이스가 생성되는 시점에 자동으로 만들어짐
+
+      → 이 데이터에 문제가 발생한다면 오라클 데이터베이스 사용이 불가능해질 수 있음
+
+      따라서, 사용자가 데이터 사전 정보에 직접 접근하거나 작업하는 것을 허용하지 않음
+
+      대신 데이터 사전 뷰를 제공하여 SELECT 문으로 정보 열람을 할 수 있게 해 둠
+
+
+---
+
+### 사용 가능한 데이터 사전 찾아보기
+
+![img.png](img.png)
+
+- USER 접두어로 시작하는 데이터 사전의 경우 현재 오라클에 접속해 있는 사용자가 소유한 객체 정보가 포함되어 있음
+- ALL 접두어로 시작하는 데이터 사전의 경우 오라클 데이터베이스에 접속해 있는 사용자가 소유한 객체 및 다른 사용자가 소유한 객체 중 사용이 허락되어 있는 객체 정보를 가지고 있음
+- DBA 접두어로 시작하는 데이터 사전의 경우 데이터베이스 관리 권한을 가진 사용자만 조회할 수 있는 테이블로서 SCOTT 계정으로는 조회가 불가능함.
+
+  → 데이터베이스 자체를 관리하는 목적 외에 오라클 데이터베이스를 사용하여 데이터를 보관하고 관리하는 업무를 진행할 때에는 그리 자주 사용하지 않음
+
+
+---
+
+- 인덱스는 사용자가 **직접 특정 테이블의 열에 지정**할 수도 있지만, **열이 기본 키 또는 고유 키일 때 자동으로 생성**됨
+
+### 인덱스 생성
+
+- 사용자가 직접 인덱스를 만들 때는 `**CREATE**`문을 사용
+- CREATE문에서는 인덱스를 생성할 테이블 및 열을 지정하며 열은 하나 또는 여러 개 지정 가능함.
+
+---
+
+### 뷰
+
+- 흔히 가상 테이블로 부르는 뷰는 `**하나 이상의 테이블을 조회하는 SELECT문을 저장**`한 객체
+
+  → SELECT문을 저장하기 때문에 물리적 데이터를 따로 저장하진 않음
+
+- 편리성
+    - SELECT문의 복잡도를 완화하기 위해
+- 보안성
+    - 테이블의 특정 열을 노출하고 싶지 않을 경우
+
+---
+
+### RowNum
+
+- 의사 열이라고 하는 특수열
+- 데이터가 저장되는 실제 테이블에 존재하지는 않지만, 특정 목적을 위해 테이블에 저장되어 있는 열처럼 사용 가능한 열을 의미
+- ROWNUM 열 데이터 번호는 테이블에 저장된 행이 조회된 순서대로 매겨진 일련 번호
+- ROWNUM은 데이터를 하나씩 추가할 때 매겨지는 번호이므로 ORDER BY 절로 정렬해도 유지되는 특성이 있음
+
+---
+
+### 시퀀스
+
+- 오라클 데이터베이스에서 특정 규칙에 맞는 연속 숫자를 생성하는 객체
+
+---
+
+### 동의어
+
+- 테이블, 뷰, 시퀀스 등 객체 이름 대신 사용할 수 있는 다른 이름을 부여하는 객체
+- 테이블 이름이 너무 길어 사용이 불편할 때 좀 더 간단하고 짧은 이름을 하나 더 만들어주기 위해 사용
+- 동의어를 만들기 위해서는 CREATE문을 사용하여 작성
+
+---
+
+### 문제 풀이
+
+`1-1`
+
+```sql
+CREATE  TABLE   EMPIDX
+    AS  SELECT  *
+        FROM    EMP
+```
+
+`1-2`
+
+```sql
+CREATE  INDEX   IDX_EMPIDX_EMPNO
+        ON      EMPIDX(EMPNO)
+```
+
+`1-3`
+
+```sql
+SELECT  *
+FROM    USER_IND_COLUMNS
+```
+
+---
+
+`2`
+
+```sql
+CREATE  VIEW    EMPIDX_OVER15K
+    AS  (
+        SELECT  EMPNO
+                , ENAME
+                , JOB
+                , DEPTNO
+                , SAL
+                ,CASE    WHEN COMM IS NULL THEN 'X'
+                        WHEN COMM IS NOT NULL THEN 'O' 
+                END     AS COMM
+        FROM    EMPIDX
+        WHERE   SAL > 1500     
+    )
+```
+
+---
+
+`3 - 1`
+
+```sql
+CREATE  TABLE   DEPTSEQ
+    AS  SELECT  *
+        FROM    DEPT
+```
+
+`3 - 2`
+
+```sql
+CREATE  SEQUENCE DEPTSEQ_
+        INCREMENT BY 1
+        START WITH 1
+        MAXVALUE 99
+        MINVALUE 1
+        NOCYCLE
+        NOCACHE
+```
+
+`3 - 3`
+
+```sql
+INSERT  INTO DEPTSEQ(DEPTNO, DNAME, LOC)
+        VALUES(DEPTSEQ_.NEXTVAL, 'DATABASE', 'SEOUL')
+
+INSERT  INTO DEPTSEQ(DEPTNO, DNAME, LOC)
+        VALUES(DEPTSEQ_.NEXTVAL, 'WEB', 'BUSAN')
+        
+INSERT  INTO DEPTSEQ(DEPTNO, DNAME, LOC)
+        VALUES(DEPTSEQ_.NEXTVAL, 'MOBILE', 'ILSAN')
+```
+
+---
