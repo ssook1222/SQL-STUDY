@@ -10,6 +10,7 @@ Do it! Oracle 데이터베이스 입문
 
 `문제 풀이에 참여한 날짜`
 - [1월 24일](#1월-24일)
+- [1월 25일](#1월-25일)
 
 ### 1
 
@@ -80,3 +81,77 @@ UPDATE  CHAP10HW_EMP
 - `**UPDATE**`를 두 개 이상 동시에 적용하기 위해서는 ,(콤마)를 사용하여 조건으로 걸어주면 된다.
 
 ### 5
+
+```sql
+DELETE  FROM CHAP10HW_EMP 
+		    WHERE   EMPNO IN (
+        SELECT  E.EMPNO 
+          FROM  CHAP10HW_EMP E, SALGRADE S
+          WHERE E.SAL BETWEEN S.LOSAL AND S.HISAL
+            AND GRADE = '5'   
+    )
+```
+
+---
+
+### 1월 25일
+
+### 1
+
+```sql
+CREATE  TABLE   EMP_HW(
+        EMPNO   NUMBER(4)
+        , ENAME VARCHAR2(10)
+        , JOB VARCHAR2(9)
+        , MGR NUMBER(4)
+        , HIREDATE DATE
+        , SAL NUMBER(7,2)
+        , COMM NUMBER(7,2)
+        , DEPTNO NUMBER(2)
+)
+```
+
+### 2
+
+```sql
+ALTER TABLE EMP_HW
+        ADD BIGO VARCHAR2(20)
+```
+
+### 3
+
+```sql
+ALTER TABLE EMP_HW
+     MODIFY BIGO VARCHAR(30)
+```
+
+### 4
+
+```sql
+ALTER TABLE EMP_HW
+      RENAME COLUMN BIGO TO REMARK
+```
+
+### 5
+
+```sql
+INSERT  INTO EMP_HW
+        SELECT  EMPNO
+                , ENAME
+                , JOB
+                , MGR
+                , HIREDATE
+                , SAL
+                , COMM
+                , DEPTNO
+                , NULL 
+        FROM EMP
+```
+
+- `**INSERT INTO**`에 **subquery 적용**한 문제
+
+### 6
+
+```sql
+DROP TABLE EMP_HW
+```
