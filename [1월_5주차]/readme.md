@@ -11,6 +11,7 @@ Do it! Oracle 데이터베이스 입문
 `문제 풀이에 참여한 날짜`
 - [1월 24일](#1월-24일)
 - [1월 25일](#1월-25일)
+- [1월 26일](#1월-26일)
 
 ### 1
 
@@ -154,4 +155,127 @@ INSERT  INTO EMP_HW
 
 ```sql
 DROP TABLE EMP_HW
+```
+
+---
+
+### 1월 26일
+
+### 제약조건
+
+- 테이블의 특정 열에 지정하며, 지정한 열에 제약 조건에 부합하지 않는 데이터를 저장할 수 없음
+- 제약 조건 지정 방식에 따라 기존 데이터의 수정이나 삭제 가능 여부도 영향을 받음
+
+  예) `NOT NULL`
+
+- 제약 조건을 지정한 열은 항상 제약 조건을 만족해야 하므로 신규 데이터의 삽입 뿐만 아니라 기존 데이터의 수정 및 삭제에도 영향을 줌
+
+---
+
+### 제약 조건 확인
+
+- 지정한 제약 조건 정보를 확인하기 위해서는 다음과 같은 `USER_CONSTRAINTS` 데이터 사전을 활용해야 함.
+
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/90746649-3618-47db-976d-46fa9f1aff60/Untitled.png)
+
+  C : Check, Not null
+
+  U : Unique
+
+  P : Primary key
+
+  R : Foreign key
+
+
+---
+
+### 제약 조건 이름 직접 지정
+
+- 제약 조건에 따로 이름을 지정해주지 않을 경우 오라클에서 자동으로 이름이 지정됨.
+- 제약 조건에 이름을 직접 지정하려면 `CONTSTRAINT` 키워드를 사용하여 설정
+- 실무에서는 이름 붙이는 규칙을 정하여 제약 조건 이름을 직접 지정하는 경우가 많음
+
+---
+
+### 제약 조건을 지정하는 다른 방식
+
+- `인라인, 열 레벨 제약 조건 정의`
+    - 열 바로 옆에 제약 조건을 지정하는 형식
+- `아웃오브라인, 테이블 레벨 제약 조건 정의`
+    - NOT NULL 제약 조건을 제외한 제약 조건 지정이 가능
+
+---
+
+### Foreign key 지정하기
+
+- 참고 대상을 지정하는 문법
+
+```sql
+CREATE TABLE 테이블이름(
+	열 자료형 CONSTRAINT 제약조건 이름 REFERENCES 참조 테이블(참조할 열)
+)
+```
+
+- 제약 조건 이름을 지정하지 않고 FOREIGN KEY를 지정할 수 있음
+
+---
+
+### 제약 조건 비활성화, 활성화
+
+- 제약 조건은 데이터 무결성을 보장하는 데 중요한 역할을 수행하지만,
+
+  신규 기능 개발 또는 테스트 같은 특정 업무를 수행해야 할 때 제약 조건이 걸림돌이 되기도 함.
+
+- **비활성화**에는 `DISABLE` 절을, **활성화**에는 `ENABLE` 절을 사용함
+    - DISABLE의 경우
+
+        ```sql
+        ALTER TABLE 테이블 이름
+        DISABLE [NOVALIDATE/VALIDATE(선택)] CONSTRAINT 제약조건이름 
+        ```
+
+    - ENABLE의 경우
+
+        ```sql
+        ALTER TABLE 테이블 이름
+        DISABLE [NOVALIDATE/VALIDATE(선택)] CONSTRAINT 제약조건이름 
+        ```
+
+
+→ 제약 조건의 제한을 위 두 방법처럼 일시적으로 풀어주는 방법이 존재함.
+
+---
+
+### Q1
+
+```sql
+CREATE TABLE DEPT_CONST(
+    DEPTNO  NUMBER(2) CONSTRAINT DEPTCONST_DEPTNO_PK PRIMARY KEY,
+    DNAME   VARCHAR(14) CONSTRAINT DEPTCONST_DNAME_UNQ UNIQUE,
+    LOC     VARCHAR(2)  CONSTRAINT DEPTCONST_LOC_NM NOT NULL
+)
+```
+
+```sql
+CREATE TABLE EMP_CONST(
+    EMPNO   NUMBER(4) CONSTRAINT EMPCONST_EMPNO_PK  PRIMARY KEY
+    , ENAME   VARCHAR2(10) CONSTRAINT EMPCONST_ENAME_NN NOT NULL
+    , JOB   VARCHAR2(9)
+    , TEL   VARCHAR(2)  CONSTRAINT  EMPCONST_TEL_UNQ UNIQUE
+    , HIREDATE DATE
+    , SAL   NUMBER(7,2)  CONSTRAINT EMPCONST_SAL_CHK CHECK (SAL BETWEEN 1000 AND 9999)
+    , COMM  NUMBER(7,2)
+    , DEPTNO NUMBER(2)  CONSTRAINT EMPCONST_DEPTNO_FK REFERENCES DEPT_CONST (DEPTNO)
+)
+```
+
+### Q2
+
+```sql
+SELECT  OWNER
+        , CONSTRAINT_NAME
+        , CONSTRAINT_TYPE
+        , TABLE_NAME
+
+FROM    USER_CONSTRAINTS
 ```
