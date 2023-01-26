@@ -12,6 +12,7 @@ Do it! Oracle 데이터베이스 입문
 - [1월 24일](#1월-24일)
 - [1월 25일](#1월-25일)
 - [1월 26일](#1월-26일)
+- [1월 27일](#1월-27일)
 
 ### 1
 
@@ -278,4 +279,39 @@ SELECT  OWNER
         , TABLE_NAME
 
 FROM    USER_CONSTRAINTS
+```
+
+---
+
+### 1월 27일
+
+### 1-1
+
+```sql
+CREATE USER C##PREV_HW
+IDENTIFIED BY ORCL
+```
+
+### 1-2
+
+```sql
+GRANT CREATE SESSION TO C##PREV_HW
+```
+
+### 2
+
+```sql
+GRANT   SELECT ON   EMP TO C##PREV_HW
+GRANT   SELECT ON   DEPT TO C##PREV_HW
+GRANT   SELECT ON   SALGRADE TO C##PREV_HW
+```
+
+- 테이블 있는 계정으로 가서 권한을 부여해야 함.
+- 무턱대고 SYSTEM 계정에서 권한 부여하다가는 에러남
+
+### 3
+
+```sql
+REVOKE  SELECT ON SALGRADE
+FROM    C##PREV_HW
 ```
