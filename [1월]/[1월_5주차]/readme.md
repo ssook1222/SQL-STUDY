@@ -13,6 +13,7 @@ Do it! Oracle 데이터베이스 입문
 - [1월 25일](#1월-25일)
 - [1월 26일](#1월-26일)
 - [1월 27일](#1월-27일)
+- [1월 30일](#1월-30일)
 
 ### 1
 
@@ -315,3 +316,56 @@ GRANT   SELECT ON   SALGRADE TO C##PREV_HW
 REVOKE  SELECT ON SALGRADE
 FROM    C##PREV_HW
 ```
+
+---
+
+### 1월 30일
+
+### 자동차 대여 기록에서 장기/단기 대여 구분하기
+
+```sql
+SELECT  HISTORY_ID
+        , CAR_ID
+        , TO_CHAR(START_DATE, 'YYYY-MM-DD')
+        , TO_CHAR(END_DATE, 'YYYY-MM-DD')
+        , CASE 
+            WHEN END_DATE-START_DATE+1 >= 30 THEN '장기 대여'
+            WHEN END_DATE-START_DATE+1 < 30 THEN '단기 대여'
+         END AS RENT_TYPE
+FROM    CAR_RENTAL_COMPANY_RENTAL_HISTORY
+WHERE   EXTRACT(MONTH FROM START_DATE) = 9
+ORDER   BY HISTORY_ID DESC
+```
+
+- END_DATE - START_DATE + 1. 1을 더해줘야 기간이 제대로 나온다.
+
+### 즐겨찾기가 가장 많은 식당 정보 출력하기
+
+```sql
+WITH A AS
+(
+    SELECT  FOOD_TYPE
+            , MAX(FAVORITES) AS FAVORITES
+    FROM    REST_INFO
+    GROUP BY    FOOD_TYPE
+)
+SELECT  B.FOOD_TYPE
+        , B.REST_ID
+        , B.REST_NAME
+        , B.FAVORITES
+FROM A, REST_INFO B
+WHERE A.FAVORITES = B.FAVORITES AND A.FOOD_TYPE = B.FOOD_TYPE
+ORDER BY A.FOOD_TYPE DESC
+```
+
+- WITH 구문 써서 풀었음
+- 개인적으로는 INNER JOIN 사용해갖구 명시한 다음 푸는 게 더 깔끔했을 듯
+
+### 조건에 맞는 회원 수 구하기
+
+```sql
+SELECT  COUNT(*) AS USERS
+FROM    USER_INFO
+WHERE   EXTRACT(YEAR FROM JOINED) = 2021 AND AGE BETWEEN 20 AND 29
+```
+

@@ -29,4 +29,4 @@
 
 `Keep한 문제들`
 
-- [1월 13일 7장 4번 문제](https://github.com/ssook1222/SQL-STUDY/tree/master/%5B1%EC%9B%94_2%EC%A3%BC%EC%B0%A8%5D)
+- [1월 13일 7장 4번 문제](https://github.com/ssook1222/SQL-STUDY/tree/master/%5B1%EC%9B%94%5D/%5B1%EC%9B%94_2%EC%A3%BC%EC%B0%A8%5D#1%EC%9B%94-13%EC%9D%BC)
