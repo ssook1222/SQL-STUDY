@@ -10,6 +10,7 @@
 
 `문제 풀이에 참여한 날짜`
 - [3월 20일](#3월-20일)
+- [3월 21일](#3월-21일)
 
 ## 3월 20일
 
@@ -63,4 +64,57 @@ FROM    CAR_RENTAL_COMPANY_RENTAL_HISTORY C LEFT OUTER JOIN TEST
         ON C.CAR_ID = TEST.CAR_ID
 
 ORDER BY CAR_ID DESC
+```
+
+## 3월 21일
+
+### 조건에 부합하는 중고 거래 댓글 조회하기
+
+```sql
+SELECT  UB.TITLE, 
+        UB.BOARD_ID,
+        UR.REPLY_ID,
+        UR.WRITER_ID,
+        UR.CONTENTS,
+        TO_CHAR(UR.CREATED_DATE, 'YYYY-MM-DD') AS CREATED_DATE
+
+FROM    USED_GOODS_BOARD UB INNER JOIN
+        USED_GOODS_REPLY UR
+        ON UB.BOARD_ID = UR.BOARD_ID
+
+WHERE   EXTRACT(MONTH FROM UB.CREATED_DATE) = 10
+        AND
+        EXTRACT(YEAR FROM UB.CREATED_DATE) = 2022
+
+ORDER BY    UR.CREATED_DATE, UB.TITLE
+```
+
+### 나이 정보가 없는 회원 수 구하기
+
+```sql
+SELECT  COUNT(*) AS USERS
+FROM    USER_INFO
+WHERE   AGE IS NULL
+```
+
+### 경기도에 위치한 식품창고 목록 출력하기
+
+```sql
+SELECT  WAREHOUSE_ID,
+        WAREHOUSE_NAME,
+        ADDRESS,
+        CASE WHEN FREEZER_YN IS NULL THEN 'N'
+             WHEN FREEZER_YN IS NOT NULL THEN FREEZER_YN
+             END AS FREEZER_YN
+             
+FROM    FOOD_WAREHOUSE
+WHERE   ADDRESS LIKE '경기도%'
+ORDER BY    WAREHOUSE_ID
+```
+
+### 최솟값 구하기
+
+```sql
+SELECT  MIN(DATETIME) AS 시간
+FROM    ANIMAL_INS
 ```
