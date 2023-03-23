@@ -11,6 +11,7 @@
 `문제 풀이에 참여한 날짜`
 - [3월 20일](#3월-20일)
 - [3월 21일](#3월-21일)
+- [3월 22일](#3월-22일)
 
 ## 3월 20일
 
@@ -117,4 +118,51 @@ ORDER BY    WAREHOUSE_ID
 ```sql
 SELECT  MIN(DATETIME) AS 시간
 FROM    ANIMAL_INS
+```
+
+---
+
+
+## 3월 22일
+
+### 조회수가 가장 많은 중고 거래 게시판의 첨부 파일 조회하기
+
+```sql
+SELECT      '/home/grep/src/'|| UB.BOARD_ID || '/' || FILE_ID || FILE_NAME || FILE_EXT AS FILE_PATH
+FROM        USED_GOODS_FILE UF INNER JOIN USED_GOODS_BOARD UB 
+ON          UF.BOARD_ID = UB.BOARD_ID
+WHERE       VIEWS IN (
+    SELECT  MAX(VIEWS)
+    FROM    USED_GOODS_BOARD
+)
+ORDER BY    FILE_ID DESC
+```
+
+### 동명 동물 수 찾기
+
+```sql
+SELECT      NAME,
+            COUNT(NAME) AS COUNT
+FROM        ANIMAL_INS
+GROUP BY    NAME
+HAVING      COUNT(NAME) >= 2
+ORDER BY    NAME
+```
+
+### 동물 수 구하기
+
+```sql
+SELECT  COUNT(*) AS COUNT
+FROM    ANIMAL_INS
+```
+
+### 이름에 el이 들어가는 동물 찾기
+
+```sql
+SELECT  ANIMAL_ID,
+        NAME
+FROM    ANIMAL_INS
+WHERE   LOWER(NAME) LIKE '%el%' 
+        AND ANIMAL_TYPE = 'Dog'
+ORDER BY    NAME
 ```
