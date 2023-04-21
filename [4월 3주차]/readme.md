@@ -10,6 +10,7 @@
 
 `문제 풀이에 참여한 날짜`
 - [4월 20일](#4월-20일)
+- [4월 21일](#4월-21일)
 
 ## 4월 20일
 
@@ -57,4 +58,44 @@ SELECT
 FROM    BAD
 GROUP BY    BAD.PRICE_GROUP
 ORDER BY    BAD.PRICE_GROUP
+```
+---
+
+## 4월 21일
+
+### 고양이와 개는 몇 마리 있을까
+
+```sql
+SELECT      ANIMAL_TYPE
+            , COUNT(*) AS COUNT
+FROM        ANIMAL_INS
+GROUP BY    ANIMAL_TYPE
+ORDER BY    ANIMAL_TYPE
+```
+
+### 조건에 부합하는 중고 거래 상태 조회하기
+
+```sql
+SELECT      BOARD_ID	
+            , WRITER_ID	
+            , TITLE	
+            , PRICE	
+            , CASE WHEN STATUS = 'SALE' THEN '판매중'
+                   WHEN STATUS = 'RESERVED' THEN '예약중'
+                   WHEN STATUS = 'DONE' THEN '거래완료' 
+                   END AS STATUS
+FROM         USED_GOODS_BOARD
+WHERE       TO_CHAR(CREATED_DATE, 'YYYY-MM-DD') = '2022-10-05'
+ORDER BY    BOARD_ID DESC
+```
+
+### 입양 시각 구하기
+
+```sql
+SELECT  TO_NUMBER(TO_CHAR(DATETIME,'HH24')) AS HOUR
+        , COUNT(*) AS COUNT
+FROM    ANIMAL_OUTS
+WHERE   TO_NUMBER(TO_CHAR(DATETIME,'HH24')) BETWEEN 9 AND 19
+GROUP BY    TO_NUMBER(TO_CHAR(DATETIME,'HH24'))
+ORDER BY    HOUR
 ```
