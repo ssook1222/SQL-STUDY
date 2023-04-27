@@ -11,6 +11,7 @@
 `문제 풀이에 참여한 날짜`    
 - [4월 24일](#4월-24일)
 - [4월 25일](#4월-25일)
+- [4월 27일](#4월-27일)
 
 ## 4월 24일
 
@@ -102,4 +103,44 @@ SELECT      ANIMAL_ID
 FROM        ANIMAL_INS
 WHERE       NAME = 'Lucy' OR NAME = 'Ella' OR NAME = 'Pickle' OR NAME = 'Rogan' OR NAME = 'Sabrina' OR NAME = 'Mitty'
 ORDER BY    ANIMAL_ID ASC
+SELECT      SUBSTR(PRODUCT_CODE,1,2) AS CATEGORY
+            , COUNT(*) AS PRODUCTS
+FROM        PRODUCT
+GROUP BY    SUBSTR(PRODUCT_CODE,1,2) 
+ORDER BY    SUBSTR(PRODUCT_CODE,1,2)
+```
+
+## 4월 27일
+
+### 자동차 종류 별 특정 옵션이 포함된 자동차 수 구하기
+
+```sql
+SELECT      CAR_TYPE
+            , COUNT(*) AS CARS
+FROM        CAR_RENTAL_COMPANY_CAR
+WHERE       OPTIONS LIKE '%통풍시트%' OR OPTIONS LIKE '%열선시트%' OR OPTIONS LIKE '%가죽시트%'
+GROUP BY    CAR_TYPE
+ORDER BY    CAR_TYPE
+```
+
+### 중성화 여부 파악하기
+
+```sql
+SELECT  ANIMAL_ID	
+        , NAME
+        , CASE WHEN SEX_UPON_INTAKE LIKE '%Neutered%' THEN 'O'
+               WHEN SEX_UPON_INTAKE LIKE '%Spayed%' THEN 'O' 
+               ELSE 'X' END AS '중성화'
+FROM    ANIMAL_INS
+ORDER BY   ANIMAL_IDㅁ
+```
+
+### 카테고리 별 상품 개수 구하기
+
+```sql
+SELECT      SUBSTR(PRODUCT_CODE,1,2) AS CATEGORY
+            , COUNT(*) AS PRODUCTS
+FROM        PRODUCT
+GROUP BY    SUBSTR(PRODUCT_CODE,1,2) 
+ORDER BY    SUBSTR(PRODUCT_CODE,1,2)
 ```
