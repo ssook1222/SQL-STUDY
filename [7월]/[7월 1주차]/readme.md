@@ -8,7 +8,7 @@
 `문제 플랫폼`    
 LeetCode
 
-## 7월 7일
+## 7월 5일
 
 
 ### **1757. Recyclable and Low Fat Products**
@@ -53,6 +53,8 @@ ORDER BY sell_date
 
 ----------
 
+## 7월 6일
+
 ### **584. Find Customer Referee**
 
 ```sql
@@ -86,7 +88,8 @@ HAVING      COUNT(*) >= 3
 ```
 
 ---
-# 23-07-07
+
+## 7월 7일
 
 ### **1789. Primary Department for Each Employee**
 
