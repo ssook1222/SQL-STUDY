@@ -33,4 +33,5 @@ HAVING AVG(i.total_price) > (SELECT AVG(total_price) FROM invoice)
 
 ---
 
-![[1106.png]]
+![1106](https://github.com/ssook1222/SQL-STUDY/assets/60427387/b1884441-35e6-4183-b8fc-b0ce580dceb8)
+
