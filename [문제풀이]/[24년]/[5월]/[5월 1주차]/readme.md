@@ -34,4 +34,4 @@ SELECT      B.UNIQUE_ID
 FROM        EMPLOYEES A LEFT OUTER JOIN EMPLOYEEUNI B
             ON A.ID = B.ID
 ```
-```
+
