@@ -1,0 +1,47 @@
+# 5월 4주차 문제 풀이 기록
+
+- 최소 1주일에 1번은 문제 풀이 진행하기
+- 문제 풀이 1번에 3문제는 풀기 (단, 최소 1문제는 중급 난이도)
+- 성능 향상이 가능해 보이는 쿼리의 경우 나중에 따로 Keep해두기
+- 문제 풀었을 때의 기록 외에도 왜 그렇게 작성했는지 생각해보기
+
+**`문제플랫폼`** Leetcode
+
+### Students and Examinations
+
+```sql
+WITH STUDENTSUBJECTS AS (
+    SELECT S.STUDENT_ID, S.STUDENT_NAME, SUB.SUBJECT_NAME
+    FROM STUDENTS S
+    CROSS JOIN SUBJECTS SUB
+),
+EXAMCOUNTS AS (
+    SELECT E.STUDENT_ID, E.SUBJECT_NAME, COUNT(*) AS ATTENDED_EXAMS
+    FROM EXAMINATIONS E
+    GROUP BY E.STUDENT_ID, E.SUBJECT_NAME
+)
+SELECT SS.STUDENT_ID, SS.STUDENT_NAME, SS.SUBJECT_NAME,
+       COALESCE(EC.ATTENDED_EXAMS, 0) AS ATTENDED_EXAMS
+FROM STUDENTSUBJECTS SS
+LEFT JOIN EXAMCOUNTS EC
+ON SS.STUDENT_ID = EC.STUDENT_ID AND SS.SUBJECT_NAME = EC.SUBJECT_NAME
+ORDER BY SS.STUDENT_ID, SS.SUBJECT_NAME;
+```
+
+### Number of Unique Subject Taught by Each Teacher
+
+```sql
+SELECT  TEACHER_ID
+        , COUNT(DISTINCT SUBJECT_ID) AS CNT
+FROM    TEACHER
+GROUP BY TEACHER_ID;
+```
+
+### Classes More Than 5 Students
+
+```sql
+SELECT      CLASS
+FROM        COURSES
+GROUP BY    CLASS
+HAVING      COUNT(CLASS) >= 5
+```
